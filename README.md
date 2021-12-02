@@ -20,6 +20,8 @@ Focus on the important features and don't spend your time on common things such 
 
 <img src="https://user-images.githubusercontent.com/36448245/144254017-1eb0c203-dc8e-43ad-823e-7ce1ae2f90d2.jpg" width="202" height="360" /> <img src="https://user-images.githubusercontent.com/36448245/144254046-22a065da-187a-4369-a4fd-1dabf017f94b.jpg" width="202" height="360" /> <img src="https://user-images.githubusercontent.com/36448245/144258356-6d2d0723-0df5-4667-93ea-8322e396d2ac.jpg" width="202" height="360" /> <img src="https://user-images.githubusercontent.com/36448245/144258754-24823cad-daf8-4754-a280-8e74de7140d2.jpg" width="202" height="360" /> 
 
+## Server side
+Simple server implementation in [naprimer.app.sever](https://github.com/Naprimer-app-git/naprimer.app.sever) 
 
 ## Next steps
 We are going to allocate existing features in the separate modules. It will help to connect and use only necessary for you app functions in easier way.
