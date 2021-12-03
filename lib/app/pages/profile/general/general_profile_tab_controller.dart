@@ -45,8 +45,6 @@ class GeneralProfileTabController extends GetxController
       case ProfileTabType.Likes:
         await fetchLikedVideos();
         break;
-      case ProfileTabType.Unpublished:
-        break;
     }
     _stopLoading();
     update();
@@ -63,7 +61,6 @@ class GeneralProfileTabController extends GetxController
     }
   }
 
-  //todo add to a profile page
   Future<void> fetchLikedVideos() async {
     List<VideoItem> list = await _videoController.fetchUserLikedVideos(
         userId: userModel.id, next: _videosList.length.toString(), limit: 2);
@@ -74,7 +71,6 @@ class GeneralProfileTabController extends GetxController
     _startLoading();
     List<VideoItem> videos = [];
     try {
-      //todo add try catch - needs to discuss what to show
       switch (tabType) {
         case ProfileTabType.Videos:
           FetchVideosResponse response = await _videoController.fetchUserVideos(
@@ -84,8 +80,6 @@ class GeneralProfileTabController extends GetxController
         case ProfileTabType.Likes:
           videos = await _videoController.fetchUserLikedVideos(
               userId: userModel.id, next: '${_videosList.length}', limit: 2);
-          break;
-        case ProfileTabType.Unpublished:
           break;
       }
       _videosList.clear();
@@ -107,6 +101,5 @@ class GeneralProfileTabController extends GetxController
 
   @override
   void onProfilePressed(String authorId) {
-    // TODO: implement onProfilePressed
   }
 }

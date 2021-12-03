@@ -46,17 +46,10 @@ class AppController extends GetxController {
   void onReady() async {
     await initServices();
     user = _userController.user.value;
-    await initialFetchForVideoController();
     addUserAuthListener();
     isInited = true;
     navigateNextIfReady();
     super.onReady();
-  }
-
-  Future<void> initialFetchForVideoController() async {
-    if (user != null) {
-      await _videoController.fetchUserLikedVideos(userId: user!.id);
-    }
   }
 
   void addUserAuthListener() {
@@ -76,7 +69,6 @@ class AppController extends GetxController {
       await Get.putAsync(() => initDbService(), permanent: true);
       await Get.putAsync(() => initUserController(), permanent: true);
       await _userController.loadUser();
-      await checkUserInBackend();
       initVideoController();
       initCreateController();
     } catch (exception, stackTrace) {
@@ -101,18 +93,6 @@ class AppController extends GetxController {
         Get.find<DbService>(), Get.find<NetworkService>(), UserConfig());
     _userController = UserController(_userRepository);
     return _userController;
-  }
-
-  //Todo: delete after active development
-  Future<AbstractUser?> checkUserInBackend() async {
-    if (_userController.user.value != null) {
-      _userController.userRepository
-          .findUserById(_userController.user.value!.id)
-          .then((value) => value)
-          .catchError((onError) {
-            _userController.logout();
-      });
-    }
   }
 
   void initVideoController() {

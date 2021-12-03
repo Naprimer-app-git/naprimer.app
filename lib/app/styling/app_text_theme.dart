@@ -8,10 +8,7 @@ class AppTextTheme {
 
   factory AppTextTheme() => _instance;
 
-  static final TextTheme defaultAppTheme = TextTheme(
-
-      //todo titles and body text styles should be defined here
-      );
+  static final TextTheme defaultAppTheme = TextTheme();
 
   static const TextStyle titleTextStyle = TextStyle(
       color: AppColors.white,

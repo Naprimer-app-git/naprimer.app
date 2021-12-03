@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
+import 'package:naprimer_app_v2/app/pages/app_controller.dart';
+import 'package:naprimer_app_v2/app/pages/profile/general/general_profile_controller.dart';
 import 'package:naprimer_app_v2/app/pages/video_details/video_details_page.dart';
+import 'package:naprimer_app_v2/app/routing/pages.dart';
 import 'package:naprimer_app_v2/app/utils/date_time_ext.dart';
 import 'package:naprimer_app_v2/app/utils/int_ext.dart';
 import 'package:naprimer_app_v2/data/video/video_item.dart';
@@ -20,7 +23,6 @@ class VideoDetailsPageController extends GetxController {
 
   bool get isControlsVisible => _isControlsVisible;
 
-  //todo mb likes and views should be obx
   bool get isVideoLiked => _videoController.isVideoLiked(videoItem.id);
 
   String? get authorAvatar => videoItem.authorAvatar;
@@ -109,11 +111,6 @@ class VideoDetailsPageController extends GetxController {
     videoPlayerController.play();
   }
 
-  void onEditPressed() {
-    //todo will be finished on next PR
-    // Get.toNamed(Routes.PUBLISH);
-  }
-
   void onLikePressed() async {
     if (!isVideoLiked) {
       videoItem.interactions.likesCount++;
@@ -132,6 +129,23 @@ class VideoDetailsPageController extends GetxController {
             0.5) {
       isVideoFullViewed = true;
       Get.find<VideoController>().incrementVideoViewCounter(videoItem.id);
+    }
+  }
+
+  onProfilePressed() {
+    AppController _appController = Get.find<AppController>();
+    if (_appController.user == null) {
+      Get.back();
+      Get.toNamed(Routes.GENERAL_PROFILE,
+          id: ForYouPages.navigatorKeyId,
+          arguments: GeneralProfileArguments(videoItem.authorId));
+    } else {
+      Get.back();
+      if (_appController.user!.id != videoItem.authorId) {
+        Get.toNamed(Routes.GENERAL_PROFILE,
+            id: ForYouPages.navigatorKeyId,
+            arguments: GeneralProfileArguments(videoItem.authorId));
+      }
     }
   }
 }

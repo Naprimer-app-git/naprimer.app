@@ -27,7 +27,6 @@ extension CameraControlTypesData on CameraControlTypes {
       case CameraControlTypes.TOGGLE_CAMERA:
         return Icon(Icons.autorenew);
       case CameraControlTypes.UPLOAD_FROM_GALLERY:
-        //TODO: implement UPLOAD_FROM_GALLERY icon
         return Icon(Icons.drive_folder_upload);
     }
   }
@@ -42,7 +41,6 @@ extension CameraControlTypesData on CameraControlTypes {
       case CameraControlTypes.TOGGLE_CAMERA:
         return Color.fromRGBO(180, 180, 180, 125);
       case CameraControlTypes.UPLOAD_FROM_GALLERY:
-        //TODO: implement UPLOAD_FROM_GALLERY background
         return AppColors.accentBlue;
     }
   }

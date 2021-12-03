@@ -58,7 +58,7 @@ class PublishPage extends StatelessWidget {
                             isKeyboardShown
                                 ? Padding(
                                     padding: const EdgeInsets.only(top: 48.0),
-                                    child: _buildButtons(controller),
+                                    child: _buildButtons(controller, context),
                                   )
                                 : const SizedBox(height: 112)
                           ],
@@ -69,7 +69,7 @@ class PublishPage extends StatelessWidget {
                       visible: !isKeyboardShown,
                       child: Align(
                           alignment: AlignmentDirectional.bottomCenter,
-                          child: _buildButtons(controller)),
+                          child: _buildButtons(controller, context)),
                     )
                   ],
                 ),
@@ -88,8 +88,7 @@ class PublishPage extends StatelessWidget {
         height: Get.height / 2.5,
         child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            child: Image.file(
-                File(imagePath!))),
+            child: Image.file(File(imagePath!))),
       );
     } else {
       imageWidget = Text('no image preview, we need an image to show this');
@@ -98,34 +97,13 @@ class PublishPage extends StatelessWidget {
     return Align(alignment: AlignmentDirectional.center, child: imageWidget);
   }
 
-  // Widget _buildChangePreviewBtn(PublishController controller) {
-  //   return ButtonWrapper(
-  //     onTap: controller.onChangePreviewPressed,
-  //     child: Container(
-  //       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-  //       decoration: BoxDecoration(
-  //           color: Color(0xff2D2D2D),
-  //           borderRadius: BorderRadius.all(Radius.circular(12))),
-  //       child: Text('Change preview picture'),
-  //     ),
-  //   );
-  // }
-
-  Widget _buildButtons(PublishController controller) {
+  Widget _buildButtons(PublishController controller, BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        /* LargeButton(
-          label: 'Unpublish',
-          type: LargeButtonType.dark,
-          onTap: controller.onUnpublishedPressed,
-        ),
-        const SizedBox(
-          height: 8,
-        ),*/
         LargeButton(
           label: 'Publish',
-          onTap: controller.onPublishPressed,
+          onTap: () => controller.onPublishPressed(context),
         ),
       ],
     );

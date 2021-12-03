@@ -8,7 +8,6 @@ import 'package:naprimer_app_v2/app/widgets/video/video_tile/video_tile.dart';
 import 'package:naprimer_app_v2/data/video/video_item.dart';
 
 class VideoGrid {
-  //todo we can add more config like sliverConfig, defaultAutoplaying, etc.  But should we?
   static autoplaying(
           {required List<VideoItem> itemList,
           required bool isLoadingMore,

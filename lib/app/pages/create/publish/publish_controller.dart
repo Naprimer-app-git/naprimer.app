@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naprimer_app_v2/app/config/camera_config.dart';
 import 'package:naprimer_app_v2/app/routing/pages.dart';
 import 'package:naprimer_app_v2/data/video/video_item.dart';
 import 'package:naprimer_app_v2/data/video/video_repository.dart';
 import 'package:naprimer_app_v2/domain/file/created_file.dart';
+import 'package:naprimer_app_v2/services/logger/logger_service.dart';
 
 import '../create_controller.dart';
 
@@ -43,24 +45,48 @@ class PublishController extends GetxController {
 
   void onUnpublishedPressed() {}
 
-  Future<void> onPublishPressed() async {
-    if (formKey.currentState!.validate()) {
-      Get.offAndToNamed(Routes.HOME);
+  Future<void> onPublishPressed(BuildContext context) async {
+    try {
+      if (formKey.currentState!.validate()) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.transparent,
+            content: Container(
+              padding: EdgeInsets.all(18),
+              margin: EdgeInsets.only(bottom: 24, left: 24, right: 24),
+              child: Text(
+                'Video is uploading...',
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              decoration: BoxDecoration(
+                  color: Color(0xE63B3B3B),
+                  borderRadius: BorderRadius.all(Radius.circular(24.0))),
+            ),
+          ),
+        );
+        Get.offAndToNamed(Routes.HOME);
 
-      CreatedFile file = createController.videoFile;
-      await file.encode(true, CAMERA_RECTANGLE_MODE);
+        CreatedFile file = createController.videoFile;
+        await file.encode(true, CAMERA_RECTANGLE_MODE);
 
-      _videoItem = await _videoRepository.create();
+        _videoItem = await _videoRepository.create();
 
-      await _videoRepository.update(
-          id: _videoItem!.id,
-          title: titleEditingController.text,
-          description: descriptionEditingController.text);
+        await _videoRepository.update(
+            id: _videoItem!.id,
+            title: titleEditingController.text,
+            description: descriptionEditingController.text);
 
-      await _videoRepository.upload(
-          id: _videoItem!.id,
-          url: _videoItem!.upload?.url ?? "",
-          filePath: file.videoPath);
+        await _videoRepository.upload(
+            id: _videoItem!.id,
+            url: _videoItem!.upload?.url ?? "",
+            filePath: file.videoPath);
+      }
+    } catch (exception, stackTrace) {
+      LoggerService.debugLog(
+        exception: exception,
+        stackTrace: stackTrace,
+      );
     }
   }
 

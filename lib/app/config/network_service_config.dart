@@ -21,5 +21,7 @@ class VideoConfig extends NetworkServiceConfig {
 
   String likeVideo(String id) => '/videos/$id/reactions/likes';
   String viewVideo(String id) => '/videos/$id/views';
+
   String fetchUserVideos(String id) => '/profiles/$id/videos';
+  String fetchUserLikedVideos(String id) => '/profiles/$id/reactions';
 }

@@ -4,16 +4,18 @@ import 'package:naprimer_app_v2/app/pages/profile/profile_tab_controller.dart';
 import 'package:naprimer_app_v2/app/pages/profile/profile_tab_type.dart';
 import 'package:naprimer_app_v2/data/video/fetch_videos_response.dart';
 import 'package:naprimer_app_v2/data/video/video_item.dart';
+import 'package:naprimer_app_v2/domain/user/abstract_user.dart';
 import 'package:naprimer_app_v2/services/logger/logger_service.dart';
 import 'package:naprimer_app_v2/services/video/video_controller.dart';
 
 class PersonalProfileTabController extends GetxController
     implements ProfileTabController {
   final ProfileTabType tabType;
+  final AbstractUser userModel;
   late VideoController _videoController;
   late List<VideoItem> _videosList;
 
-  PersonalProfileTabController(this.tabType);
+  PersonalProfileTabController(this.tabType, {required this.userModel});
 
   List<VideoItem> get videosList => _videosList;
 
@@ -41,9 +43,6 @@ class PersonalProfileTabController extends GetxController
       case ProfileTabType.Videos:
         await fetchVideos();
         break;
-      case ProfileTabType.Unpublished:
-        _videosList = [];
-        break;
       case ProfileTabType.Likes:
         _videosList = _videoController.likedVideos;
         break;
@@ -54,10 +53,9 @@ class PersonalProfileTabController extends GetxController
 
   Future<void> fetchVideos() async {
     try {
-      List<VideoItem> videos = await _videoController.fetchVideos(
-          nextIndex: _videosList.length, itemCnt: 2);
-
-      _videosList.addAll(videos);
+      FetchVideosResponse response = await _videoController.fetchUserVideos(
+          userId: userModel.id, next: _videosList.length.toString());
+      _videosList.addAll(response.videos);
     } catch (exception, stackTrace) {
       LoggerService.debugLog(exception: exception, stackTrace: stackTrace);
     }
@@ -65,7 +63,6 @@ class PersonalProfileTabController extends GetxController
 
   Future<void> onRefresh() async {
     _startLoading();
-    //todo add try catch - needs to discuss what to show
     List<VideoItem> videos = [];
     try {
       switch (tabType) {
@@ -74,12 +71,7 @@ class PersonalProfileTabController extends GetxController
               userId: Get.find<AppController>().user!.id);
           videos = response.videos;
           break;
-        case ProfileTabType.Unpublished:
-          //todo needs to be finished when unpublished will be ready;
-          //for debug purposes
-          videos = [];
-          break;
-        case ProfileTabType.Likes:
+         case ProfileTabType.Likes:
           videos = await _videoController.fetchUserLikedVideos(
               userId: Get.find<AppController>().user!.id);
           break;

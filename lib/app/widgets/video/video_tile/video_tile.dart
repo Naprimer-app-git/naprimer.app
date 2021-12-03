@@ -204,20 +204,9 @@ class _VideoTileState extends State<VideoTile> {
 
   VideoState videoState() {
     return VideoState.READY;
-    //todo not ready to be implemented
-    // return VideoState.PROCESSING;
-    // return VideoState.UPLOADING;
-    // // if (videoItem.isDraft) {
-    // //   MyUserModel userModel = Modular.get<MyUserModel>();
-    // //   return userModel.videoIsUploading(videoItem.id)
-    // //       ? _VideoState.processing
-    // //       : _VideoState.uploading;
-    // // } else {
-    // //   return _VideoState.ready;
-    // // }
   }
 
   void onGoToVideoPressed() {
-    Get.toNamed(Routes.VIDEO_DETAILS_PAGE, arguments: widget.videoItem);
+    Get.toNamed(Routes.VIDEO_DETAILS_PAGE, arguments: widget.videoItem)?.then((value) => setState((){}));
   }
 }

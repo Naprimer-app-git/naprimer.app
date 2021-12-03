@@ -29,7 +29,7 @@ class ProfileTab extends StatelessWidget {
   GetxController initProfileTabController() {
     return (profileType == ProfileType.General
         ? GeneralProfileTabController(tabType, userModel: userModel)
-        : PersonalProfileTabController(tabType));
+        : PersonalProfileTabController(tabType, userModel: userModel));
   }
 
   @override

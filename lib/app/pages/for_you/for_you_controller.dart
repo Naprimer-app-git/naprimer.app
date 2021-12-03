@@ -51,16 +51,18 @@ class ForYouController extends GetxController {
   }
 
   @override
-  void onReady() {
-    _initialFetch();
+  void onReady() async{
+    await _initialFetch();
 
     super.onReady();
   }
 
   Future<void> _initialFetch() async {
     _startLoading();
-    //todo add try catch - needs to discuss what to show
     try {
+      if(_appController.user != null){
+        await _videoController.fetchUserLikedVideos(userId: _appController.user!.id);
+      }
       List<VideoItem> list =
           await _videoController.fetchVideos(nextIndex: _videosList.length);
       list.forEach((element) {
@@ -78,7 +80,6 @@ class ForYouController extends GetxController {
   Future<void> onRefresh() async {
     _startLoading();
     try {
-      //todo add try catch - needs to discuss what to show
       List<VideoItem> list =
           await _videoController.fetchVideos(nextIndex: _videosList.length);
       _videosList.clear();

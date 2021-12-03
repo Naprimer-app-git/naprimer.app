@@ -58,11 +58,6 @@ class ProfileSliverAppBar extends SliverPersistentHeaderDelegate {
           maxRadius: 44,
           minRadius: 44,
           child: Image.asset(Assets.defaultAvatar),
-          //todo still error occurs :/
-          // child: Image.network(avatar!,
-          //     errorBuilder: (context, object, stackTrace) {
-          //   return Image.asset(Assets.defaultAvatar);
-          // }),
         ),
       ),
     );

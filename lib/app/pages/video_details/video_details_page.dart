@@ -158,32 +158,31 @@ class VideoDetailsPage extends GetView<VideoDetailsPageController> {
           _buildProfileControl(),
           const SizedBox(height: 20),
           _buildLikesWidget(),
-          Visibility(
-            visible: controller.isPersonal,
-            child: _buildEditWidget(),
-          ),
         ],
       ),
     );
   }
 
   Widget _buildProfileControl() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(controller.author),
-            const SizedBox(height: 6),
-            Text(controller.releasedAt),
-          ],
-        ),
-        const SizedBox(width: 12),
-        AppAvatarFactory.asset(size: Size(40, 40))
-      ],
+    return ButtonWrapper(
+      onTap: controller.onProfilePressed,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(controller.author),
+              const SizedBox(height: 6),
+              Text(controller.releasedAt),
+            ],
+          ),
+          const SizedBox(width: 12),
+          AppAvatarFactory.asset(size: Size(40, 40))
+        ],
+      ),
     );
   }
 
@@ -205,16 +204,6 @@ class VideoDetailsPage extends GetView<VideoDetailsPageController> {
             ],
           );
         });
-  }
-
-  Widget _buildEditWidget() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: _buildCircleIcon(
-          iconData: Icons.more_vert_rounded,
-          backgroundColor: Colors.grey,
-          onTap: controller.onEditPressed),
-    );
   }
 
   Widget _buildCircleIcon(

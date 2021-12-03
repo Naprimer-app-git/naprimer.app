@@ -25,7 +25,6 @@ class GeneralProfilePage extends GetView<GeneralProfileController> {
             case ConnectionState.none:
             case ConnectionState.active:
             case ConnectionState.waiting:
-              //todo need to discuss loader
               return Container(
                 alignment: AlignmentDirectional.center,
                 child: CircularProgressIndicator(),

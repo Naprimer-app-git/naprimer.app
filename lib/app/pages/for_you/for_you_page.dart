@@ -61,7 +61,6 @@ class ForYouPage extends GetView<ForYouController> {
   }
 
   Widget _buildBody(BuildContext context) {
-    print('build');
     return SliverPadding(
       padding: const EdgeInsets.only(
           left: defaultPadding, top: defaultPadding, right: defaultPadding),

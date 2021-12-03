@@ -17,5 +17,5 @@ abstract class AbstractNetworkService {
       Map<String, dynamic>? query,
       dynamic decoder,
       dynamic uploadProgress,
-      bool ingnoreBaseUrl = false});
+      bool ignoreBaseUrl = false});
 }

@@ -173,7 +173,6 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  //todo probably should be refactored and used in feed and here
   Widget _buildVideoGrid(
       {required SearchController controller,
       required double maxWidth,

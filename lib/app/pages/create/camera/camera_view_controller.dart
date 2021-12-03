@@ -8,6 +8,7 @@ import 'package:naprimer_app_v2/app/pages/create/create_controller.dart';
 import 'package:naprimer_app_v2/domain/file/created_file.dart';
 import 'package:naprimer_app_v2/services/camera/camera_service.dart';
 import 'package:naprimer_app_v2/services/encoding/encoding_service.dart';
+import 'package:naprimer_app_v2/services/logger/logger_service.dart';
 import 'package:wakelock/wakelock.dart';
 
 class CameraViewController extends GetxController {
@@ -96,33 +97,61 @@ class CameraViewController extends GetxController {
   }
 
   void generateFileFromGallery(String fileName, String filePath) {
-    _videoFile =
-        CreatedFile(fileName, filePath, null, Get.find<EncodingService>());
+    try {
+      _videoFile =
+          CreatedFile(fileName, filePath, null, Get.find<EncodingService>());
+    } catch (exception, stackTrace) {
+      LoggerService.debugLog(
+        exception: exception,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   Future<void> generateFileFromCamera() async {
-    await _camera.stopRecording();
-    _videoFile = CreatedFile(_camera.videoFile!.name, _camera.videoFile!.path,
-        null, Get.find<EncodingService>());
-    _videoFile.name = _camera.videoFile!.name;
-    _videoFile.videoPath = _camera.videoFile!.path;
+    try {
+      await _camera.stopRecording();
+      _videoFile = CreatedFile(_camera.videoFile!.name, _camera.videoFile!.path,
+          null, Get.find<EncodingService>());
+      _videoFile.name = _camera.videoFile!.name;
+      _videoFile.videoPath = _camera.videoFile!.path;
+    } catch (exception, stackTrace) {
+      LoggerService.debugLog(
+        exception: exception,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   Future<void> onClosePressed() async {
-    await _camera.reset();
-    createController.onClosePressed();
+    try {
+      await _camera.reset();
+      createController.onClosePressed();
+    } catch (exception, stackTrace) {
+      LoggerService.debugLog(
+        exception: exception,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   Future<void> onUploadFromGalleryPressed() async {
-    await _camera.reset();
-    FilePickerResult? result =
-        await FilePicker.platform.pickFiles(type: FileType.video);
+    try {
+      await _camera.reset();
+      FilePickerResult? result =
+          await FilePicker.platform.pickFiles(type: FileType.video);
 
-    if (result != null) {
-      PlatformFile file = result.files.first;
-      onNextPressed(fileName: file.name, filePath: file.path ?? "");
-    } else {
-      _camera.create();
+      if (result != null) {
+        PlatformFile file = result.files.first;
+        onNextPressed(fileName: file.name, filePath: file.path ?? "");
+      } else {
+        _camera.create();
+      }
+    } catch (exception, stackTrace) {
+      LoggerService.debugLog(
+        exception: exception,
+        stackTrace: stackTrace,
+      );
     }
   }
 }

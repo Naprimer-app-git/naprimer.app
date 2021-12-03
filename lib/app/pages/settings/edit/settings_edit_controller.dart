@@ -65,7 +65,6 @@ class SettingsEditController extends GetxController {
   @override
   void dispose() {
     _controller.dispose();
-    //todo need to clarify
     _errorMessage = 'Error message';
     super.dispose();
   }
@@ -93,7 +92,6 @@ class SettingsEditController extends GetxController {
         _controller.text = Get.find<UserController>().user.value!.name;
         break;
       case FieldType.Username:
-        //todo should be checked if this is correct
         _controller.text =
             Get.find<UserController>().user.value!.nickname ?? 'No nickname';
         break;

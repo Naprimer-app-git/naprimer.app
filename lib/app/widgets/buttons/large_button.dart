@@ -152,17 +152,6 @@ class LargeButton extends StatelessWidget {
                   ),
                 ),
               ),
-              //todo add a bit later
-              // if (leftIconSvgPath != null)
-              //   Container(
-              //     alignment: Alignment.centerLeft,
-              //     margin: EdgeInsets.only(left: 16),
-              //     child: WebsafeSvg.asset(
-              //       leftIconSvgPath,
-              //       height: 25,
-              //       width: 25,
-              //     ),
-              //   ),
             ],
           ),
         ),

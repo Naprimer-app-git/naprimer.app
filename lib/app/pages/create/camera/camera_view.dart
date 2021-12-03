@@ -9,10 +9,16 @@ import 'package:naprimer_app_v2/services/camera/camera_service.dart';
 import '../../../../domain/pages/focusable.dart';
 import '../create_controller.dart';
 
-class CameraView extends StatelessWidget implements Focusable {
+class CameraView extends StatefulWidget {
   final CreateController createController;
 
   CameraView(this.createController);
+
+  @override
+  State<CameraView> createState() => _CameraViewState();
+}
+
+class _CameraViewState extends State<CameraView> with WidgetsBindingObserver  implements Focusable {
 
   void onFocusChanged({required bool inFocus}) {
     Get.find<CameraViewController>().onFocusChanged(inFocus);
@@ -22,7 +28,7 @@ class CameraView extends StatelessWidget implements Focusable {
   Widget build(BuildContext context) {
     closeKeyboardIfNeeded(context);
     return GetBuilder(
-        init: CameraViewController(this.createController),
+        init: CameraViewController(this.widget.createController),
         global: true,
         autoRemove: false,
         builder: (CameraViewController controller) {
@@ -70,6 +76,7 @@ class CameraView extends StatelessWidget implements Focusable {
           );
         });
   }
+
   void closeKeyboardIfNeeded(BuildContext context) {
     bool isKeyboardShown = MediaQuery.of(context).viewInsets.bottom != 0;
     if (isKeyboardShown) FocusScope.of(context).unfocus();

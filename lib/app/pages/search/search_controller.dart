@@ -94,11 +94,9 @@ class SearchController extends GetxController {
     if (next == null) _videosList = [];
 
     SearchVideosResponse response = await _videoController.searchVideos(
-        text: _searchTextController.text, next: _searchNextCursor);
+        text: text.toLowerCase(), next: _searchNextCursor);
     _searchNextCursor = response.next;
-    print(_searchNextCursor);
     _isSearchReachedEnd = _searchNextCursor == null;
-
     if (_searchNextCursor == null) {
       _videosList = response.videos;
     } else {
@@ -148,7 +146,6 @@ class SearchController extends GetxController {
         Get.toNamed(Routes.GENERAL_PROFILE, id: SearchPages.navigatorKeyId,
             arguments: GeneralProfileArguments(authorId));
       }
-      //todo should we add nav to profile for personal videos?
     }
   }
 }

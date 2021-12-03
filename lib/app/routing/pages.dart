@@ -58,7 +58,7 @@ class GlobalPages {
       case Routes.VIDEO_DETAILS_PAGE:
         return _buildVideoDetailsScreen(settings);
       default:
-        return _buildErrorScreen(settings);
+        return _buildSplashScreen(settings);
     }
   }
 
@@ -108,14 +108,14 @@ class GlobalPages {
     );
   }
 
-  static GetPageRoute _buildErrorScreen(RouteSettings settings) {
-    ErrorState errorState = ErrorState.SOMETHING_WENT_WRONG;
-    if (settings.arguments != null) {
-      errorState = settings.arguments as ErrorState;
-    }
-    return GetPageRoute(
-        page: () => ErrorPage(errorState: errorState), settings: settings);
-  }
+  // static GetPageRoute _buildErrorScreen(RouteSettings settings) {
+  //   ErrorState errorState = ErrorState.SOMETHING_WENT_WRONG;
+  //   if (settings.arguments != null) {
+  //     errorState = settings.arguments as ErrorState;
+  //   }
+  //   return GetPageRoute(
+  //       page: () => ErrorPage(errorState: errorState), settings: settings);
+  // }
 
   static GetPageRoute _buildSettingsScreen(RouteSettings settings) {
     return GetPageRoute(

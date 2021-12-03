@@ -13,6 +13,7 @@ class NetworkService extends AbstractNetworkService {
       {required NetworkClient networkClient,
       required NetworkServiceConfig config}) async {
     _networkClient = networkClient;
+
     _baseUrl = config.baseUrl;
     _client.timeout = Duration(seconds: 20);
     return this;
@@ -41,9 +42,8 @@ class NetworkService extends AbstractNetworkService {
       Map<String, dynamic>? query,
       decoder,
       uploadProgress,
-      ingnoreBaseUrl = false}) async {
-
-    _client.baseUrl = ingnoreBaseUrl ? "" : _baseUrl;
+      ignoreBaseUrl = false}) async {
+    _client.baseUrl = ignoreBaseUrl ? "" : _baseUrl;
 
     switch (requestMethod) {
       case RequestMethod.GET:

@@ -86,12 +86,13 @@ class PersonalProfilePage extends StatelessWidget {
 
   Widget _buildTabBarView(
       BuildContext context, PersonalProfileController controller) {
+    if(controller.user == null) return Container();
     return TabBarView(
         children: ProfileTabType.values
             .map((tabType) => ProfileTab(
                   tabType: tabType,
                   profileType: ProfileType.Personal,
-                  userModel: controller.user,
+                  userModel: controller.user!,
                 ))
             .toList());
   }

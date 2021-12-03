@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
     return SafeArea(
       child: GetBuilder<HomeController>(builder: (controller) {
         return WillPopScope(
-          onWillPop: controller.onBackPressed,
+          onWillPop: () => controller.onBackPressed(context),
           child: SafeArea(
             child: Scaffold(
               body: NotificationListener(
@@ -50,10 +50,7 @@ class HomePage extends StatelessWidget {
         .toList();
   }
 
-
-  Widget getIcon(BottomNavBarMenu item,HomeController controller) {
-    //todo controller exception should be investigated
-    // HomeController controller = Get.find<HomeController>();
+  Widget getIcon(BottomNavBarMenu item, HomeController controller) {
     if (item == BottomNavBarMenu.Profile && controller.user != null) {
       return ClipRect(
           child: Image.asset(

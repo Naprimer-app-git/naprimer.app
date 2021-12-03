@@ -1,14 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:naprimer_app_v2/app/pages/app_controller.dart';
-
 import 'package:naprimer_app_v2/app/pages/for_you/for_you_root.dart';
-
 import 'package:naprimer_app_v2/app/pages/home/bottom_nav_bar_menu.dart';
 import 'package:naprimer_app_v2/app/pages/home/home_page_arguments.dart';
 import 'package:naprimer_app_v2/app/pages/profile/personal/personal_profile_page.dart';
-
-import 'package:naprimer_app_v2/app/pages/search/search_page.dart';
+import 'package:naprimer_app_v2/app/pages/search/search_root.dart';
 import 'package:naprimer_app_v2/app/routing/pages.dart';
 import 'package:naprimer_app_v2/domain/user/abstract_user.dart';
 
@@ -16,6 +15,7 @@ class HomeController extends GetxController {
   final HomePageArguments? arguments;
   late List<Widget> _tabs;
   late AppController _appController;
+  DateTime? currentBackPressTime;
 
   HomeController({this.arguments});
 
@@ -30,8 +30,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     _appController = Get.find<AppController>();
-    _tabs = [
-      ForYouRoot(), Container(), SearchPage(), PersonalProfilePage()];
+    _tabs = [ForYouRoot(), Container(), SearchRoot(), PersonalProfilePage()];
   }
 
   @override
@@ -46,6 +45,8 @@ class HomeController extends GetxController {
   void onItemTapped(int index) {
     switch (index) {
       case 0:
+        navigateToInitialForYou();
+        break;
       case 2:
         navigateToIndex(index);
         break;
@@ -71,28 +72,20 @@ class HomeController extends GetxController {
     update();
   }
 
-  Future<bool> onBackPressed() async {
-    //todo should be refactored
+  void navigateToInitialForYou() {
+    Get.nestedKey(ForYouPages.navigatorKeyId)!.currentState?.popUntil((route) {
+      var currentRoute = route.settings.name ?? 'no current route';
+      return currentRoute == Routes.FOR_YOU;
+    });
+    _selectedIndex = 0;
+    update();
+  }
+
+  Future<bool> onBackPressed(BuildContext context) async {
     if (selectedIndex == 0) {
-      Get.nestedKey(ForYouPages.navigatorKeyId)!
-          .currentState
-          ?.popUntil((route) {
-        var currentRoute = route.settings.name ?? 'no current route';
-        if (currentRoute == Routes.GENERAL_PROFILE) {
-          Get.back(id: ForYouPages.navigatorKeyId);
-        }
-        return true;
-      });
+      _navigateBackFromForYouTab(context);
     } else if (selectedIndex == 2) {
-      Get.nestedKey(SearchPages.navigatorKeyId)!
-          .currentState
-          ?.popUntil((route) {
-        var currentRoute = route.settings.name ?? 'no current route';
-        if (currentRoute == Routes.GENERAL_PROFILE) {
-          Get.back(id: SearchPages.navigatorKeyId);
-        }
-        return true;
-      });
+      _navigateBackFromSearchTab();
     } else {
       Get.key.currentState?.popUntil((route) {
         var currentRoute = route.settings.name ?? 'no current route';
@@ -107,5 +100,44 @@ class HomeController extends GetxController {
       onItemTapped(0);
     }
     return false;
+  }
+
+  void _navigateBackFromForYouTab(BuildContext context) {
+    Get.nestedKey(ForYouPages.navigatorKeyId)!.currentState?.popUntil((route) {
+      var currentRoute = route.settings.name ?? 'no current route';
+      if (currentRoute == Routes.GENERAL_PROFILE) {
+        Get.back(id: ForYouPages.navigatorKeyId);
+      }
+      if (currentRoute == Routes.FOR_YOU) {
+        DateTime now = DateTime.now();
+        if (currentBackPressTime == null ||
+            now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+          currentBackPressTime = now;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              content: Container(
+                color: Colors.black,
+                child: Text(
+                  'Press back again to exit',
+                  style: TextStyle(color: Colors.white),
+                ),
+              )));
+        } else {
+          SystemNavigator.pop();
+        }
+      }
+      return true;
+    });
+  }
+
+  void _navigateBackFromSearchTab() {
+    Get.nestedKey(SearchPages.navigatorKeyId)!.currentState?.popUntil((route) {
+      var currentRoute = route.settings.name ?? 'no current route';
+      if (currentRoute == Routes.GENERAL_PROFILE) {
+        Get.back(id: SearchPages.navigatorKeyId);
+      }
+      return true;
+    });
   }
 }

@@ -73,7 +73,6 @@ class CreateController extends GetxController {
     }
   }
 
-  //Todo: нужно бы реализовать попап delete и единую логику close ы учетом PageView
   Future<bool> onBackPressed() async {
     if (currentPage > 0) {
       _pageController.previousPage(

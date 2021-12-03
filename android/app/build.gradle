@@ -60,5 +60,5 @@ dependencies {
 }
 
 ext {
-    flutterFFmpegPackage  = "full"
+    flutterFFmpegPackage  = "full-gpl-lts"
 }

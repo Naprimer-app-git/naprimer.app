@@ -19,7 +19,7 @@ class DioNetworkService extends AbstractNetworkService {
       Map<String, dynamic>? query,
       decoder,
       uploadProgress,
-      bool ingnoreBaseUrl = false}) {
+      bool ignoreBaseUrl = false}) {
     String method = 'POST';
     switch (requestMethod) {
       case RequestMethod.GET:

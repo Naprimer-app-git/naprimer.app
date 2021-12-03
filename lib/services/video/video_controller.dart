@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:naprimer_app_v2/data/exception/video_exception.dart';
 import 'package:naprimer_app_v2/data/video/fetch_videos_response.dart';
 import 'package:naprimer_app_v2/data/video/search_videos_response.dart';
 import 'package:naprimer_app_v2/data/video/video_item.dart';
@@ -41,10 +40,8 @@ class VideoController extends GetxController {
         FetchVideosResponse(videos: [], limit: 0, next: 0);
 
     try {
-      videoResponse = await _videoRepository.fetchVideos(
+      videoResponse = await  _videoRepository.fetchVideos(
           itemCnt: itemCnt, nextIndex: nextIndex, isRebuild: isRebuild);
-    } on FetchVideosException catch (e) {
-      //todo should we somehow display the errors?
     } catch (exception, stackTrace) {
       LoggerService.debugLog(exception: exception, stackTrace: stackTrace);
     }
@@ -84,8 +81,6 @@ class VideoController extends GetxController {
         SearchVideosResponse(videos: [], limit: 0, next: 0);
     try {
       response = await _videoRepository.search(text: text, next: next);
-    } on FetchVideosException catch (e) {
-      //todo should we somehow display the errors?
     } catch (exception, stackTrace) {
       LoggerService.debugLog(exception: exception, stackTrace: stackTrace);
     }
@@ -94,13 +89,12 @@ class VideoController extends GetxController {
 
   Future<FetchVideosResponse> fetchUserVideos(
       {required String userId, String next = '', int limit = 10}) async {
+    // return FetchVideosResponse(videos: [], limit: 0, next: 0);
     FetchVideosResponse videoResponse =
         FetchVideosResponse(videos: [], limit: 0, next: 0);
     try {
       videoResponse = await _videoRepository.fetchUserVideos(
           userId: userId, limit: limit, nextIndex: next);
-    } on FetchVideosException catch (e) {
-      //todo should we somehow display the errors?
     } catch (exception, stackTrace) {
       LoggerService.debugLog(exception: exception, stackTrace: stackTrace);
     }

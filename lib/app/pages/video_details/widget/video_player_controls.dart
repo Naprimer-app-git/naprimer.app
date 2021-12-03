@@ -43,7 +43,6 @@ class _VideoPlayerControlsState extends State<VideoPlayerControls> {
     playerPositionController = StreamController();
 
     widget.videoPlayerController.addListener(() {
-      //todo needs to be checked and probably removed
       if (playerPositionController.isClosed) {
         playerPositionController = StreamController();
         widget.videoPlayerController.addListener(() {

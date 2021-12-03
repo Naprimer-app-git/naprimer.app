@@ -42,12 +42,11 @@ class AuthRepository implements AbstractAuthRepository {
   @override
   Future<AbstractLoginResponse> login(
       {required String email, required String password}) async {
-    print('login via email: $email and password: $password');
     Response response =
         await networkService.makeRequest(url: authConfig.login, body: {
       "client_id": authConfig.clientId,
       "email": email,
-      "username": email, //Todo
+      "username": email,
       "password": password,
       "grant_type": "password"
     });

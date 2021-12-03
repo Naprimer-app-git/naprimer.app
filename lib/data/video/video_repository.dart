@@ -23,7 +23,6 @@ class VideoRepository implements AbstractVideoRepository {
 
   VideoRepository({required this.networkService, required this.config});
 
-  //todo itemCtn doesn't work, check backend
   @override
   Future<FetchVideosResponse> fetchVideos(
       {int itemCnt = 10, int? nextIndex, bool isRebuild = false}) async {
@@ -88,15 +87,13 @@ class VideoRepository implements AbstractVideoRepository {
     }
   }
 
-  //todo fix so video repo should return only response objects
   @override
   Future<List<VideoItem>> fetchLikedVideos(
       {required String userId, String next = '', int limit = 10}) async {
+    // return [];
     Response response = await networkService.makeRequest(
-        url: '/profiles/$userId/reactions',
+        url: config.fetchUserLikedVideos(userId),
         headers: await addAuthorizationHeaders({}),
-
-        //todo for debug purposes
         query: {'limit': limit.toString(), 'next': next, 'type': 'likes'},
         requestMethod: RequestMethod.GET);
     if (response.body['results'] != null) {
@@ -129,7 +126,7 @@ class VideoRepository implements AbstractVideoRepository {
         headers: await addAuthorizationHeaders({}),
         requestMethod: RequestMethod.POST);
     if (response.statusCode != 200) {
-      throw FetchVideosException.fromResponse(response); //Todo
+      throw FetchVideosException.fromResponse(response);
     }
 
     return VideoItem.fromJson(response.body, config.baseUrl);
@@ -152,12 +149,6 @@ class VideoRepository implements AbstractVideoRepository {
     File video = File(filePath);
 
     final length = video.lengthSync();
-
-    print('VIDEO CONTENT_LENGTH $length');
-
-    //Todo: Никакие комбинации не позволили мне выгрузить видео используя GetConnect
-    //Фактически стоит вопрос в отказе от него как по мне ибо это не прикольно
-
     var response = await DioNetworkService().makeRequest(
         url: url, //url.replaceAll("https", "http"),
         contentType: 'video/mp4',

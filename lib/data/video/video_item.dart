@@ -1,7 +1,5 @@
 import 'package:naprimer_app_v2/domain/video/abstract_video_item.dart';
 
-//todo discuss what fields are required
-
 class VideoItem implements AbstractVideoItem {
   VideoItem({
     required this.id,
